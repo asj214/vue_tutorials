@@ -9,12 +9,13 @@
               <v-divider class="mb-5"></v-divider>
               <v-form ref="form" lazy-validation>
                 <v-text-field
-                  :rules="emailRules"
+                  v-model="email"
                   label="E-mail"
                   required
                 ></v-text-field>
                 <v-text-field
                   :type="password"
+                  v-model="password"
                   label="Password"
                   required
                 ></v-text-field>
@@ -29,6 +30,24 @@
 </template>
 <script>
 export default {
+  data: () => ({
+    email: "abc123@abc.com",
+    password: "password"
+  }),
+  methods: {
+    async onSubmit(email, password) {
+      let credentials = {
+        email: email,
+        password: password,
+      };
+      this.$store.dispatch("LOGIN", credentials).then((res) => {
+        if (res.status == 200) {
+          this.$store.dispatch("USER");
+          this.$router.push({ name: "Dashboard" });
+        }
+      });
+    },
+  }
 
 }
 </script>

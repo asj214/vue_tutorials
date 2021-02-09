@@ -1,26 +1,50 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/views/About.vue')
-  }
-]
+export default new Router({
+    mode: 'hash',
+    base: process.env.BASE_URL,
+    routes: [
+    {
+            path: '/',
+            redirect: 'dashboard/basic-dashboard',
+            component: () => import('@/layouts/Layout'),
+            children: [
+                // Components
+                {
+                    name: 'Alerts',
+                    path: 'pages/alerts',
+                    component: () => import('@/views/pages/Alerts'),
+                },
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+                {
+                    name: 'Profile',
+                    path: 'pages/profile',
+                    component: () => import('@/views/pages/Profile'),
+                },
+
+                {
+                    name: 'Icons',
+                    path: 'pages/icons',
+                    component: () => import('@/views/pages/Icons'),
+                },
+
+                {
+                    name: 'TableSimple',
+                    path: 'pages/tables-simple',
+                    component: () => import('@/views/pages/TableSimple'),
+                },
+
+                {
+                    name: 'Dashboard',
+                    path: 'dashboard/basic-dashboard',
+                    component: () => import('@/views/dashboard/BasicDashboard'),
+                },
+
+            ]
+        },
+
+    ],
 })
-
-export default router
